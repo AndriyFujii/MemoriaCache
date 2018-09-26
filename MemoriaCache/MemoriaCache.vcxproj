@@ -151,6 +151,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="hash.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
