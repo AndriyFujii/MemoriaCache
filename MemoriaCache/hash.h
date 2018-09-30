@@ -3,33 +3,111 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 constexpr int M = 16;
 
-struct THash{
-    int chave;
-    bool acerto;
+struct Dado
+{
+	unsigned int tempo;
+	int chave;
+};
+
+struct THash
+{
+	std::vector<Dado> dado;
+	bool acerto;
 };
 
 //Preenche todos os valores da chave com -1, que seria um "null", pois um endereco nunca vai ser negativo
-void inicializa_tabela(THash t[]){
-    for (int i = 0; i < M; i++)
-        t[i].chave = -1;
+//Preenche o tempo com o maior valor de um unsigned int
+void inicializa_tabela(THash &h, int qtdEnderecosCache)
+{
+	for (int j = 0; j < qtdEnderecosCache; j++)
+	{
+		Dado dado = Dado();
+		dado.chave = -1;
+		dado.tempo = 4294967295;
+
+		h.dado.push_back(dado);
+	}
 }
 
-int hash(int x){
-    return x % M;
+int hash(int chave, int tamCache)
+{
+	return chave % tamCache;
 }
 
-void insere(THash t[], int chave){
-	int pos = hash(chave);
+//Retorna a posicao que passou do tempo limite da cache
+int LRU(std::vector<THash> h, int pos, int tempoLimite, int qtdEnderecosCache)
+{
+	int maiorTempo = -1, retorno = -1;
+	for (int i = 0; i < qtdEnderecosCache; i++)
+	{
+		if (h[pos].dado[i].tempo > tempoLimite)
+		{
+			return i;
+		}
+		else if (h[pos].dado[i].tempo > maiorTempo)
+		{
+			maiorTempo = h[pos].dado[i].tempo;
+			retorno = i;
+		}
+	}
+	return retorno;
+}
 
-    if(t[pos].chave == chave)
-        t[pos].acerto = true;
-    else
-        t[pos].acerto = false;
+void insere(std::vector<THash> &h, int chave, int tempoLimite, int tamCache, int qtdEnderecosCache)
+{
+	int pos = hash(chave, tamCache);
 
-    t[pos].chave = chave;
+	bool saida = false;
+
+	//Verifica se a chave ja existe, caso sim, eh um acerto
+	for (int i = 0; i < qtdEnderecosCache; i++)
+	{
+		if (h[pos].dado[i].chave == chave)
+		{
+			h[pos].acerto = true;
+			saida = true;
+		}
+	}
+
+	//Verifica se tem um espaco vago, caso nao, chama o LRU
+	if (!saida)
+	{
+		for (int i = 0; i < qtdEnderecosCache; i++)
+		{
+			if (h[pos].dado[i].chave == -1)
+			{
+				h[pos].dado[i].chave = chave;
+				saida = true;
+				break;
+			}
+		}
+
+		if (!saida)
+			h[pos].dado[LRU(h, pos, tempoLimite, qtdEnderecosCache)].chave = chave;
+
+		h[pos].acerto = false;
+	}
+
+	for (int i = 0; i < tamCache; i++)
+		for (int j = 0; j < qtdEnderecosCache; j++)
+		{
+			if (h[i].dado[j].chave != -1)
+				h[i].dado[j].tempo++;
+		}
+	//h[pos].dado[i].chave = chave;
+}
+
+//Procura em qual endereco esta a chave
+int procura(THash h, int chave, int qtdEnderecosCache)
+{
+	for (int i = 0; i < qtdEnderecosCache; i++)
+		if (h.dado[i].chave == chave)
+			return i;
+	return -1;
 }
 
 #endif // HASH_H
