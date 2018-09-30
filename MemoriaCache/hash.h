@@ -41,13 +41,15 @@ int hash(int chave, int tamCache)
 //Retorna a posicao que passou do tempo limite da cache
 int LRU(std::vector<THash> h, int pos, int tempoLimite, int qtdEnderecosCache)
 {
-	int maiorTempo = -1, retorno = -1;
-	for (int i = 0; i < qtdEnderecosCache; i++)
+	int maiorTempo = h[pos].dado[0].tempo, retorno = 0;
+	if (maiorTempo > tempoLimite)
+		return 0;
+
+	for (int i = 1; i < qtdEnderecosCache; i++)
 	{
 		if (h[pos].dado[i].tempo > tempoLimite)
-		{
 			return i;
-		}
+
 		else if (h[pos].dado[i].tempo > maiorTempo)
 		{
 			maiorTempo = h[pos].dado[i].tempo;
@@ -69,6 +71,7 @@ void insere(std::vector<THash> &h, int chave, int tempoLimite, int tamCache, int
 		if (h[pos].dado[i].chave == chave)
 		{
 			h[pos].acerto = true;
+			h[pos].dado[i].tempo = 0;
 			saida = true;
 		}
 	}
@@ -87,7 +90,11 @@ void insere(std::vector<THash> &h, int chave, int tempoLimite, int tamCache, int
 		}
 
 		if (!saida)
-			h[pos].dado[LRU(h, pos, tempoLimite, qtdEnderecosCache)].chave = chave;
+		{
+			int lru = LRU(h, pos, tempoLimite, qtdEnderecosCache);
+			h[pos].dado[lru].chave = chave;
+			h[pos].dado[lru].tempo = 0;
+		}
 
 		h[pos].acerto = false;
 	}
