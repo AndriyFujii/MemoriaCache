@@ -10,6 +10,7 @@ constexpr int M = 16;
 struct Dado
 {
 	unsigned int tempo;
+	bool validade;
 	int chave;
 };
 
@@ -28,6 +29,7 @@ void inicializa_tabela(THash &h, int qtdEnderecosCache)
 		Dado dado = Dado();
 		dado.chave = -1;
 		dado.tempo = 4294967295;
+		dado.validade = false;
 
 		h.dado.push_back(dado);
 	}
