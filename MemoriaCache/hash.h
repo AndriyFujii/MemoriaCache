@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-constexpr int M = 16;
-
 struct Dado
 {
 	unsigned int tempo;
@@ -78,6 +76,18 @@ void insere(std::vector<THash> &h, int chave, int tempoLimite, int tamCache, int
 		}
 	}
 
+	//Verifica o bit de validade
+	for (int i = 0; i < qtdEnderecosCache; i++)
+	{
+		if (!h[pos].dado[i].validade)
+		{
+			h[pos].dado[i].chave = chave;
+			h[pos].dado[i].validade = 0;
+			saida = true;
+			break;
+		}
+	}
+
 	//Verifica se tem um espaco vago, caso nao, chama o LRU
 	if (!saida)
 	{
@@ -86,6 +96,7 @@ void insere(std::vector<THash> &h, int chave, int tempoLimite, int tamCache, int
 			if (h[pos].dado[i].chave == -1)
 			{
 				h[pos].dado[i].chave = chave;
+				h[pos].dado[i].validade = 1;
 				saida = true;
 				break;
 			}
@@ -96,11 +107,13 @@ void insere(std::vector<THash> &h, int chave, int tempoLimite, int tamCache, int
 			int lru = LRU(h, pos, tempoLimite, qtdEnderecosCache);
 			h[pos].dado[lru].chave = chave;
 			h[pos].dado[lru].tempo = 0;
+			h[pos].dado[lru].validade = 1;
 		}
 
 		h[pos].acerto = false;
 	}
 
+	//Incrementa o tempo de todas as variaveis
 	for (int i = 0; i < tamCache; i++)
 		for (int j = 0; j < qtdEnderecosCache; j++)
 		{
