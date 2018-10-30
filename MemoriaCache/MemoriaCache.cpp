@@ -103,7 +103,7 @@ void mostra_cache(std::vector<THash> memCache, int tamCache, int qtdEndederecosC
 			textcolor(WHITE, BLACK);
 
 			//Printa o dado
-			x += 5;
+			x += 6;
 			if (memCache[j].dado[i].chave != -1)
 			{
 				gotoxy(x, y);
@@ -113,7 +113,7 @@ void mostra_cache(std::vector<THash> memCache, int tamCache, int qtdEndederecosC
 				std::cout << memCache[j].dado[i].chave;
 				textcolor(WHITE, BLACK);
 			}
-			x -= 7;
+			x -= 8;
 			y++;
 		}
 		x += 17;
