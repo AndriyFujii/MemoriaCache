@@ -65,7 +65,7 @@ void mostra_cache(std::vector<THash> memCache, int tamCache, int qtdEndederecosC
 	int x = 36, y;
 	for (int i = 0; i < qtdEndederecosCache; i++)
 	{
-		y = 9;
+		y = 10;
 		for (int j = 0; j < tamCache; j++)
 		{
 			//Printa o bit de validade
@@ -172,7 +172,7 @@ int main()
 	custo = qtdEnderecosCache * (tamCache / qtdEnderecosCache) * (32 - expoente(tamCache) - m - k);
 
 	//Preenche a tabela
-	int y = 8;
+	int y = 9;
 	system("cls");
 	cabecalho();
 	//Printa o custo em tag
@@ -208,7 +208,7 @@ int main()
 		y++;
 	}
 
-	y = 9;
+	y = 10;
 	for (int i = 0; i < qtdEndereco; i++)
 	{
 		int aux;
@@ -216,8 +216,8 @@ int main()
 		mostra_cache(memCache, tamCache, qtdEnderecosCache, tempoLimite);
 
 		gotoxy(0, 5);
-		std::cout << "Digite o endereco:\n";
-		std::cin >> aux;
+		std::cout << "Digite o endereco:";
+		validacao(aux, 0, 6);
 
 		insere(memCache, aux, tempoLimite, tamCache, qtdEnderecosCache);
 
