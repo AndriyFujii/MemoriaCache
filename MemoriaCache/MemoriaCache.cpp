@@ -72,12 +72,12 @@ void mostra_cache(std::vector<THash> memCache, int tamCache, int qtdEndederecosC
 			gotoxy(x, y);
 			if (memCache[j].dado[i].validade)
 			{
-				textcolor(BRIGHTWHITE, BLACK);
+				textcolor(GREEN, BLACK);
 				std::cout << "1";
 			}
 			else
 			{
-				textcolor(GRAY, BLACK);
+				textcolor(RED, BLACK);
 				std::cout << "0";
 			}
 			textcolor(WHITE, BLACK);
@@ -90,7 +90,7 @@ void mostra_cache(std::vector<THash> memCache, int tamCache, int qtdEndederecosC
 			if (memCache[j].dado[i].tempo == 4294967295)
 			{
 				textcolor(GRAY, BLACK);
-				std::cout << "/";
+				std::cout << "-";
 			}
 			else
 			{
@@ -111,6 +111,12 @@ void mostra_cache(std::vector<THash> memCache, int tamCache, int qtdEndederecosC
 				gotoxy(x, y);
 				textcolor(BRIGHTWHITE, BLACK);
 				std::cout << memCache[j].dado[i].chave;
+				textcolor(WHITE, BLACK);
+			}
+			else {
+				gotoxy(x, y);
+				textcolor(GRAY, BLACK);
+				std::cout << "-";
 				textcolor(WHITE, BLACK);
 			}
 			x -= 8;
