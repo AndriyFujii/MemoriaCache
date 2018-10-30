@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include <vector>
 #include <sstream>
+ 
+
 #include "menu.h"
 #include "hash.h"
 
@@ -44,6 +46,17 @@ void validacao(int &valor, int x, int y)
 			textcolor(WHITE, BLACK);
 		}
 	} while (!saida);
+}
+
+//Calcula o expoente
+int expoente(int x) {
+	int exp = 1;
+
+	while (pow(2, exp) < x) {
+		exp++;
+	}
+
+	return exp;
 }
 
 //Mostra os dados da cache na tela
@@ -118,7 +131,7 @@ int main()
 
 	int qtdEnderecosCache;
 	gotoxy(0, 9);
-	std::cout << "Entre com a quantidade de enderecos na cache:";
+	std::cout << "Entre com o grau de associatividade:";
 	validacao(qtdEnderecosCache, 0, 10);
 
 	std::vector<THash> memCache;
@@ -139,10 +152,27 @@ int main()
 	std::cout << "Entre com a quantidade de enderecos para salvar:";
 	validacao(qtdEndereco, 0, 18);
 
+	//Calculo de custo de tag
+	//custo= w*(tamanho da cache(qtd de linhas)/w)*(32-n-m-k)
+	/*
+		no caso
+		w=qtdEnderecosCache
+		tamanho=tamCache
+		k=2 constante
+		m=indice para selecionar uma word, no caso so vamos utilizar 1 word por bloco
+	*/
+	double custo;
+	int m = 1, k = 2;
+	custo = qtdEnderecosCache * (tamCache / qtdEnderecosCache) * (32 - expoente(tamCache) - m - k);
+
 	//Preenche a tabela
 	int y = 8;
 	system("cls");
 	cabecalho();
+	//Printa o custo em tag
+	gotoxy(30, 5);
+	std::cout << "Custo de tag: " << custo << " bits";
+
 	gotoxy(0, y);
 	std::cout << "Endereco";
 	gotoxy(10, y);
@@ -150,6 +180,7 @@ int main()
 	gotoxy(29, y);
 	std::cout << "Bloco";
 	int x = 36;
+	tamCache = tamCache / qtdEnderecosCache;
 	for (int i = 0; i < qtdEnderecosCache; i++)
 	{
 		gotoxy(x, y);
@@ -208,6 +239,7 @@ int main()
 		std::cout << "          ";
 		y++;
 	}
+
 	_getch();
 	return 0;
 }
