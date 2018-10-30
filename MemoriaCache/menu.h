@@ -56,7 +56,7 @@ void cabecalho()
 	gotoxy(0, 2);
 	std::cout << "Arquitetura de Computadores";
 	gotoxy(0, 3);
-	std::cout << "Andriy Fujii";
+	std::cout << "Andriy Fujii, Luiz Zimmerman";
 	textcolor(WHITE, BLACK);
 }
 

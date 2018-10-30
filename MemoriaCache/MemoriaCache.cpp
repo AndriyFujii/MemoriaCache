@@ -171,7 +171,7 @@ int main()
 	cabecalho();
 	//Printa o custo em tag
 	gotoxy(30, 5);
-	std::cout << "Custo de tag: " << custo << " bits";
+	std::cout << "Custo em tag: " << custo << " bits";
 
 	gotoxy(0, y);
 	std::cout << "Endereco";
