@@ -72,7 +72,7 @@ void insere(std::vector<THash> &h, int chave, int tempoLimite, int tamCache, int
 		{
 			h[pos].acerto = true;
 			h[pos].dado[i].tempo = 0;
-			h[pos].dado[i].validade = 1;
+			h[pos].dado[i].validade = true;
 			saida = true;
 			break;
 		}
