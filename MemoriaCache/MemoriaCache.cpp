@@ -50,7 +50,7 @@ void validacao(int &valor, int x, int y)
 
 //Calcula o expoente
 int expoente(int x) {
-	int exp = 1;
+	int exp = 0;
 
 	while (pow(2, exp) < x) {
 		exp++;
@@ -168,8 +168,8 @@ int main()
 		m=indice para selecionar uma word, no caso so vamos utilizar 1 word por bloco
 	*/
 	double custo;
-	int m = 1, k = 2;
-	custo = qtdEnderecosCache * (tamCache / qtdEnderecosCache) * (32 - expoente(tamCache) - m - k);
+	int m = 2, k = 2;
+	custo = qtdEnderecosCache * (tamCache / qtdEnderecosCache) * (32 - expoente(tamCache/qtdEnderecosCache) - m - k);
 
 	//Preenche a tabela
 	int y = 9;
