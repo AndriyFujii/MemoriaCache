@@ -85,7 +85,9 @@ void insere(std::vector<THash> &h, int chave, int tempoLimite, int tamCache, int
 		{
 			if (!h[pos].dado[i].validade)
 			{
+				h[pos].acerto = false;
 				h[pos].dado[i].chave = chave;
+				h[pos].dado[i].tempo = 0;
 				h[pos].dado[i].validade = true;
 				saida = true;
 				break;
@@ -127,7 +129,7 @@ void insere(std::vector<THash> &h, int chave, int tempoLimite, int tamCache, int
 			}
 
 			if (h[i].dado[j].tempo >= tempoLimite) {
-				h[i].dado[j].validade = 0;
+				h[i].dado[j].validade = false;
 			}
 		}
 	//h[pos].dado[i].chave = chave;
